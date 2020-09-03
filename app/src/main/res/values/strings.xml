@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Events App</string>
+    <string name="hello">Olá, %s!</string>
+    <string name="welcome">Bem-vindo ao Events</string>
+    <string name="next_events">Próximos Eventos</string>
+    <string name="coupons">Cupons</string>
+    <string name="fake_email">fabiojunior@mail.com</string>
+    <string name="title_activity_event_detail">ScrollingActivity</string>
+    <string name="welcome_to_app">Bem vindo ao</string>
+    <string name="welcome_to_app_name">Events!</string>
+    <string name="action_settings">Settings</string>
+    <string name="logout">Sair</string>
+    <string name="invalid_email">Insira um email válido!</string>
+    <string name="invalid_name">Insira um nome com pelo menos 4 caracteres!</string>
+    <string name="email_validate">"[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+"</string>
+    <string name="Text_example">O Patas Dadas estará na Redenção, nesse domingo,  com cães para adoção e produtos à venda!\n\n  Na ocasião, teremos bottons, bloquinhos e camisetas! \n\n Traga seu Pet, os amigos e o chima, e venha aproveitar  esse dia de sol com a gente e com alguns de nossos  peludinhos - que estarão prontinhos para ganhar o  ♥ de um humano bem legal pra chamar de seu. \n\n   Aceitaremos todos os tipos de doação:\n- guias e coleiras em bom estado\n- ração (as que mais precisamos no momento são  sênior e filhote)\n- roupinhas\n- cobertas\n- remédios dentro do prazo de validade</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBB1OZr4xS2UKu4e3PKIkZ1ld7wA49Ipn4</string>
+    <string name="event_error">Ihh, estamos com problema de conexão...</string>
+    <string name="confirm_checkin">Deseja realizar checkin nesse evento?\\nOs descontos serão aplicados ao chegar no evento</string>
+    <string name="wait">Aguarde um momento...</string>
+    <string name="sucess_message">Aproveite o evento :)</string>
+    <string name="error_message">Algo deu errado, tente novamente mais tarde...</string>
+    <string name="ok">Ok</string>
+    <string name="title_ready">Hora do Checkin</string>
+    <string name="title_loading">Realizando checkin</string>
+    <string name="title_sucess">Checkin realizado!</string>
+    <string name="message_login">Insira as suas informações\npara continuar</string>
+    <string name="name">Nome</string>
+    <string name="email">Email</string>
+    <string name="next">Avançar</string>
+    <string name="title_error">Opsssss!</string>
+
+</resources>

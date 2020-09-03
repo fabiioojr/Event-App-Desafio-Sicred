@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#282758</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#fd2db3</color>
+    <color name="colorTitle">#071540</color>
+    <color name="colorTextWhite">#F6F6F6</color>
+    <color name="colorBackground">#132B75</color>
+    <color name="colorPrice">#149184</color>
+    <color name="colorDate">#149184</color>
+    <color name="colorTextError">#FF165F</color>
+    <color name="colorBGError">#3C3077</color>
+    <color name="bg_button">#3B397C</color>
+    <color name="bg_event">#D0282758</color>
+</resources>

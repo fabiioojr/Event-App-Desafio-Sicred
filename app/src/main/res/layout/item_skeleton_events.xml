@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="@color/bg_event"
+    app:cardCornerRadius="25dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/icon"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:scaleType="centerCrop"
+            android:src="@color/bg_button"
+            app:riv_corner_radius="360dp"
+            app:riv_mutate_background="true"
+            app:riv_oval="true" />
+
+        <LinearLayout
+            android:id="@+id/box_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/icon"
+            android:layout_alignBottom="@+id/icon"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="6dp"
+            android:layout_toStartOf="@+id/go_to_event"
+            android:layout_toEndOf="@+id/icon"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:background="@color/bg_button"/>
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:background="@color/bg_button"
+                android:layout_marginTop="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hello" />
+        </LinearLayout>
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/go_to_event"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@color/bg_button"
+            app:riv_corner_radius="360dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"  />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
