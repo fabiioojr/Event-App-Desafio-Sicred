@@ -1,5 +1,6 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
+<!-- TEMPLATE DO README: https://github.com/othneildrew/Best-README-Template/blob/master/README.md -->
 
 <br />
 <p align="center">
@@ -16,17 +17,24 @@
 
 ## Sumário
 
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
+* [Sobre o Projeto](#sobre-o-projeto)
+* [Objetivos](#objetivos)
   * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
+* [API de Eventos](#api-de-eventos)
+  * [Eventos](#eventos)
+  * [Checkin](#checkin)
+* [Início do Projeto](#inicio-de-projeto)
+* [Telas](#telas)
+  * [Mini Cadastro](#mini-cadastro)
+  * [Tela Inicial](#tela-inicial)
+  * [Cupons](#tela-inicial)
+  * [Evento](#evento)
+  * [Checkin](#checkin)
+* [Arquitetura](#arquitetura)
+  * [Resumo](#resumo)
+* [Bibliotecas Usadas](#bibliotecas-usadas)
+* [Testes](#testes)
+* [Contato](#contato)
 
 
 
@@ -58,7 +66,6 @@ A API possui uma rota para retorna uma lista de eventos e uma para realizar chec
 
 Retorna uma lista de eventos com o seguinte formato:
 
-\
 
 ```json
  {
@@ -161,11 +168,11 @@ A arquitetura usada no projeto é a **Model View ViewModel - MVVM**, onde dentro
 
 Algumas bibliotecas externas foram usadas para ajudar no desenvolvimento:
 
-* [Retrofit](https://getbootstrap.com) - Para realizar chamadas a API.
-* [Rounded Image View](https://jquery.com) - Imageview com bordas arredondadas.
-* [Skeleton](https://laravel.com) - Animações para loading.
-* [Glide](https://laravel.com) - Usada para inserir imagens com qualidade em Imageview.
-* [API Google Maps](https://laravel.com) - Usada para exibir a localização dos eventos.
+* [Retrofit](https://square.github.io/retrofit/) - Para realizar chamadas a API.
+* [Rounded Image View](https://github.com/vinc3m1/RoundedImageView) - Imageview com bordas arredondadas.
+* [Skeleton](https://github.com/ethanhua/Skeleton) - Animações para loading.
+* [Glide](https://github.com/bumptech/glide) - Usada para inserir imagens com qualidade em Imageview.
+* [API Google Maps](https://cloud.google.com/maps-platform?hl=pt-br) - Usada para exibir a localização dos eventos.
 
 
 ## Testes
@@ -179,9 +186,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 Fábio Júnior - [@fabi1junior](https://instagram.com/fabi1junior) - fabiojuniorpeq@gmail.com
 
-Link do Projet: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Link do Projeto: [https://github.com/fabiioojr/Event-App-Sicred](https://github.com/fabiioojr/Event-App-Sicred)
 
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
+[linkedin-url]: https://www.linkedin.com/in/fabiojuniorpeq/
 [product-screenshot]: images/splash.png
