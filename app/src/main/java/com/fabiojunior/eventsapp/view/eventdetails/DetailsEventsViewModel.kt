@@ -2,12 +2,14 @@ package com.fabiojunior.eventsapp.view.eventdetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.fabiojunior.eventsapp.data.api.APIService
 import com.fabiojunior.eventsapp.data.model.CheckIn
-import com.fabiojunior.eventsapp.data.repository.DataRepository
+import com.fabiojunior.eventsapp.data.repository.DataRepositoryInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class DetailsEventsViewModel() : ViewModel() {
-    private val dataRepository: DataRepository = DataRepository(APIService.service())
+class DetailsEventsViewModel(private val dataRepository: DataRepositoryInterface) : ViewModel() {
 
     val onResultCheckin = MutableLiveData<Boolean>()
 
@@ -15,15 +17,11 @@ class DetailsEventsViewModel() : ViewModel() {
      * Function for checkin
      */
     fun checkIn(request: CheckIn) {
-        dataRepository.checkIn(request, object : DataRepository.OnCheckin {
-            override fun onSuccess() {
-                onResultCheckin.postValue(true)
+        GlobalScope.launch {
+            withContext(Dispatchers.Main) {
+                onResultCheckin.postValue(dataRepository.checkIn(request))
             }
-
-            override fun onFailure(message: String) {
-                onResultCheckin.postValue(false)
-            }
-        })
+        }
     }
 
 }

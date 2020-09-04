@@ -2,14 +2,16 @@ package com.fabiojunior.eventsapp.view.events
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.fabiojunior.eventsapp.data.api.APIService
 import com.fabiojunior.eventsapp.data.model.Coupon
 import com.fabiojunior.eventsapp.data.model.Event
-import com.fabiojunior.eventsapp.data.repository.DataRepository
+import com.fabiojunior.eventsapp.data.repository.DataRepositoryInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainEventsViewModel() : ViewModel() {
-    private val dataRepository: DataRepository = DataRepository(APIService.service())
-    private val listCoupons: MutableList<Coupon> = arrayListOf()
+class MainEventsViewModel(private val dataRepository: DataRepositoryInterface) : ViewModel() {
+    val listCoupons: MutableList<Coupon> = arrayListOf()
     val eventsLiveData: MutableLiveData<List<Event>> = MutableLiveData()
     val couponsLiveData: MutableLiveData<List<Coupon>> = MutableLiveData()
     val onEventLoading = MutableLiveData<Boolean>()
@@ -20,22 +22,23 @@ class MainEventsViewModel() : ViewModel() {
     /**
      * Logic for get events
      */
-    fun getEventsData() {
+    suspend fun getEventsData() {
         onEventLoading.postValue(true)
         onCouponLoading.postValue(true)
 
-        dataRepository.getEvents(object : DataRepository.OnEventData {
-            override fun onSuccess(data: List<Event>) {
-                eventsLiveData.value = data
-                getCoupons()
-            }
+        val response = dataRepository.getEvents()
 
-            override fun onFailure() {
-                onEventError.postValue(true)
-                onCouponError.postValue(true)
+        if (response != null) {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    eventsLiveData.value = response
+                    getCoupons()
+                }
             }
-        })
-
+        } else {
+            onEventError.postValue(true)
+            onCouponError.postValue(true)
+        }
         onEventLoading.postValue(false)
     }
 

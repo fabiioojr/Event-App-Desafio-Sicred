@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
@@ -20,16 +19,21 @@ import com.fabiojunior.eventsapp.view.base.BaseActivity
 import com.fabiojunior.eventsapp.view.eventdetails.EventDetailActivity
 import com.fabiojunior.eventsapp.view.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_events.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainEventsActivity : BaseActivity(), EventsAdapter.EventClickListener,
     CouponAdapter.CouponClickListener, DialogCoupon.CallbackDialog {
 
+    private val mainEventsVM by viewModel<MainEventsViewModel>()
     private lateinit var adapterEvents: EventsAdapter
     private lateinit var adapterCoupon: CouponAdapter
     private var profile: Profile? = null
     private var skeletonScreenCoupon: RecyclerViewSkeletonScreen.Builder? = null
     private var skeletonScreenEvent: RecyclerViewSkeletonScreen.Builder? = null
-    private lateinit var mainEventsVM: MainEventsViewModel
 
     override fun getLayout(): Int {
         return R.layout.activity_events
@@ -38,8 +42,6 @@ class MainEventsActivity : BaseActivity(), EventsAdapter.EventClickListener,
     override fun init() {
         setupStatusBar()
         showError(false, "")
-
-        mainEventsVM = ViewModelProvider(this).get(MainEventsViewModel::class.java)
 
         if (intent.hasExtra(KEY_BUNDLE)) {
             val bundle = intent.getBundleExtra(KEY_BUNDLE)
@@ -55,54 +57,56 @@ class MainEventsActivity : BaseActivity(), EventsAdapter.EventClickListener,
         mainEventsVM
             .onEventError
             .observe(this, Observer {
-            showError(
-                true,
-                getString(R.string.event_error)
-            )
-            refresh.isRefreshing = false
-        })
+                showError(
+                    true,
+                    getString(R.string.event_error)
+                )
+                refresh.isRefreshing = false
+            })
 
         mainEventsVM
             .onEventLoading
             .observe(this, Observer {
-            if (it) skeletonScreenEvent?.show();
-        })
+                if (it) skeletonScreenEvent?.show();
+            })
 
         mainEventsVM
             .onCouponLoading
             .observe(this, Observer {
-            if (it) skeletonScreenCoupon?.show();
-        })
+                if (it) skeletonScreenCoupon?.show();
+            })
 
         mainEventsVM
             .eventsLiveData
             .observe(this, Observer {
-            it.let { eventsData ->
-                with(list_events) {
-                    adapterEvents.updateList(eventsData as MutableList<Event>)
-                    adapter = adapterEvents
-                    refresh.isRefreshing = false
+                it.let { eventsData ->
+                    with(list_events) {
+                        adapterEvents.updateList(eventsData as MutableList<Event>)
+                        adapter = adapterEvents
+                        refresh.isRefreshing = false
+                    }
                 }
-            }
-        })
+            })
 
         mainEventsVM
             .couponsLiveData
             .observe(this, Observer {
-            it.let { couponsData ->
-                with(list_coupons) {
-                    adapterCoupon.updateList(couponsData as MutableList<Coupon>)
-                    adapter = CouponAdapter(couponsData, this@MainEventsActivity)
+                it.let { couponsData ->
+                    with(list_coupons) {
+                        adapterCoupon.updateList(couponsData as MutableList<Coupon>)
+                        adapter = CouponAdapter(couponsData, this@MainEventsActivity)
+                    }
                 }
-            }
-        })
+            })
     }
 
     /**
      * Get event data by model view
      */
     private fun getEventData() {
-        mainEventsVM.getEventsData()
+        GlobalScope.launch {
+            mainEventsVM.getEventsData()
+        }
     }
 
     /**
@@ -116,7 +120,11 @@ class MainEventsActivity : BaseActivity(), EventsAdapter.EventClickListener,
         })
 
         refresh.setOnRefreshListener {
-            mainEventsVM.getEventsData()
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    mainEventsVM.getEventsData()
+                }
+            }
             showError(false, "")
         }
     }

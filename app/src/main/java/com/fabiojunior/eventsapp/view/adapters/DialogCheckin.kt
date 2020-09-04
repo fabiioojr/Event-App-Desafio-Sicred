@@ -69,7 +69,6 @@ class DialogCheckin(
         yes.visibility = GONE
         no.visibility = GONE
         animation_view.playAnimation()
-
     }
 
     /**

@@ -1,8 +1,9 @@
 package com.fabiojunior.eventsapp.view.eventdetails
 
+import android.content.Intent
+import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.fabiojunior.eventsapp.R
 import com.fabiojunior.eventsapp.data.model.CheckIn
@@ -22,13 +23,18 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import kotlinx.android.synthetic.main.content_scrolling.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class EventDetailActivity : BaseActivity(), DialogCheckin.CallbackDialog, OnMapReadyCallback {
     private var profile: Profile? = null
     private var event: Event? = null
-    private lateinit var detailEventsviewModel: DetailsEventsViewModel
+    private val detailEventsviewModel by viewModel<DetailsEventsViewModel>()
     private lateinit var dialogCheckin: DialogCheckin
     private lateinit var mapFragment: SupportMapFragment
 
@@ -55,22 +61,26 @@ class EventDetailActivity : BaseActivity(), DialogCheckin.CallbackDialog, OnMapR
             .findFragmentById(R.id.mapFragment) as SupportMapFragment?)!!
         mapFragment.getMapAsync(this)
 
-        detailEventsviewModel = ViewModelProvider(this).get(DetailsEventsViewModel::class.java)
+        dialogCheckin = event?.let { it1 -> DialogCheckin(it1, this, this) }!!
 
         fab.setOnClickListener {
-            dialogCheckin = event?.let { it1 -> DialogCheckin(it1, this, this) }!!
-            dialogCheckin.show()
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    dialogCheckin.show()
+                }
+            }
         }
 
         detailEventsviewModel
             .onResultCheckin
             .observe(this, Observer {
-            if (it) {
-                dialogCheckin.setSuccess()
-            } else {
-                dialogCheckin.setError()
-            }
-        })    }
+                if (it) {
+                    dialogCheckin.setSuccess()
+                } else {
+                    dialogCheckin.setError()
+                }
+            })
+    }
 
     /**
      * Setup event content
@@ -108,26 +118,61 @@ class EventDetailActivity : BaseActivity(), DialogCheckin.CallbackDialog, OnMapR
     }
 
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onCheckinSuccess() {
         finish()
     }
 
     override fun onCheckinRequest() {
-        dialogCheckin.setLoading()
-        val checkin = CheckIn(event?.id, profile?.name, profile?.email)
-        detailEventsviewModel.checkIn(checkin)
+        GlobalScope.launch {
+            withContext(Dispatchers.Main) {
+                dialogCheckin.setLoading()
+                val checkin = CheckIn(event?.id, profile?.name, profile?.email)
+                detailEventsviewModel.checkIn(checkin)
+            }
+        }
     }
 
     override fun onCheckinCancel() {
     }
 
     override fun onCheckinError() {
+    }
+
+    /**
+     * Share event in others app
+     */
+    private fun shareEvent() {
+        event.let {
+            val share = Intent.createChooser(Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "Venha conferir esse incrível evento: " + event?.description
+                )
+                putExtra(Intent.EXTRA_TITLE, "Event App - " + event?.title)
+
+            }, null)
+            startActivity(share)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            R.id.share -> {
+                shareEvent()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_event_detail, menu)
+        return true
     }
 }
