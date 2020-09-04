@@ -3,6 +3,8 @@ package com.fabiojunior.eventsapp.view.eventdetails
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.fabiojunior.eventsapp.R
@@ -30,6 +32,7 @@ import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class EventDetailActivity : BaseActivity(), DialogCheckin.CallbackDialog, OnMapReadyCallback {
     private var profile: Profile? = null
@@ -143,16 +146,14 @@ class EventDetailActivity : BaseActivity(), DialogCheckin.CallbackDialog, OnMapR
      */
     private fun shareEvent() {
         event.let {
-            val share = Intent.createChooser(Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(
-                    Intent.EXTRA_TEXT,
-                    "Venha conferir esse incrível evento: " + event?.description
-                )
-                putExtra(Intent.EXTRA_TITLE, "Event App - " + event?.title)
-
-            }, null)
-            startActivity(share)
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                "Venha conferir esse incrível evento: " + event?.description
+            )
+            shareIntent.putExtra(Intent.EXTRA_TITLE, "Event App - " + event?.title)
+            startActivity(Intent.createChooser(shareIntent, "Compartilhando evento..."))
         }
     }
 
@@ -171,8 +172,12 @@ class EventDetailActivity : BaseActivity(), DialogCheckin.CallbackDialog, OnMapR
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_event_detail, menu)
+        var drawable = menu.findItem(R.id.share).icon
+
+        drawable = DrawableCompat.wrap(drawable!!)
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.colorTextWhite))
+        menu.findItem(R.id.share).icon = drawable
         return true
     }
 }

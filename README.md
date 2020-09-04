@@ -19,7 +19,6 @@
 
 * [Sobre o Projeto](#sobre-o-projeto)
 * [Objetivos](#objetivos)
-  * [Prerequisites](#prerequisites)
 * [API de Eventos](#api-de-eventos)
   * [Eventos](#eventos)
   * [Checkin](#checkin)
@@ -32,6 +31,7 @@
   * [Checkin](#checkin)
 * [Arquitetura](#arquitetura)
   * [Resumo](#resumo)
+* [Injeção de dependências](#Injecaodedependencias)
 * [Bibliotecas Usadas](#bibliotecas-usadas)
 * [Testes](#testes)
 * [Contato](#contato)
@@ -142,7 +142,7 @@ Ao clicar em um cupom, é exibido um popup com as informações de desconto e um
 Na tela do evento, é exibida o título, descrição, data e localização do evento em um mapa usando a **API do Google Maps**, um botão para compartilhar o evento e um botão para realizar o checkin:
 
 \
-<img src="images/event.gif" width="200" height="424"/>        
+<img src="images/event.gif" width="200" height="424"/>  <img src="images/share.gif" width="200" height="424"/>     
 
 ### Checkin
 
@@ -160,10 +160,17 @@ A arquitetura usada no projeto é a **Model View ViewModel - MVVM**, onde dentro
 \
 ### Resumo
 
-1. **Model:** Lógica envolvida nos domínios da aplicação (Event,)
+1. **Model:** Lógica envolvida nos domínios da aplicação (Event, Coupon, Checkin...)
 2. **View:** Toda construção de telas, a camada de apresentação.
 3. **ViewModel:** Coordena as operações entre a View e a camada Model.
 
+
+## Injeção de dependências
+
+Para injeção de dependências foi usada o **Koin**, para que de forma automática seja injetado os módulos do *ViewModel*, *Repositório*, *Retrofit*...
+
+<img width="400" height=auto src="https://miro.medium.com/max/4052/1*1_J8doSg4SzQQd_p7DXTig.png" />  
+  
 ## Bibliotecas Usadas
 
 Algumas bibliotecas externas foram usadas para ajudar no desenvolvimento:
@@ -173,14 +180,15 @@ Algumas bibliotecas externas foram usadas para ajudar no desenvolvimento:
 * [Skeleton](https://github.com/ethanhua/Skeleton) - Animações para loading.
 * [Glide](https://github.com/bumptech/glide) - Usada para inserir imagens com qualidade em Imageview.
 * [API Google Maps](https://cloud.google.com/maps-platform?hl=pt-br) - Usada para exibir a localização dos eventos.
+* [Lottie](https://github.com/airbnb/lottie-android) - Usada para animações. (Animações usadas: [Lottie Files](http://lottiefiles.com/))
+* [Flat Icon](https://www.flaticon.com/) - Ícones usados na aplicação.
 
 
 ## Testes
 
-Para a realização de testes foram usados o JUnit, Roboeletric e Mockito:
+Para a realização de testes nos **ViewModel** foram usados o JUnit e Mockito:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
+<img width="600" height=auto src="images/teste.png" /> 
 
 ## Contato
 

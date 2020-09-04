@@ -70,12 +70,11 @@ class MainViewModelTest {
     @Test
     fun `Upon receiving the data, the event list is set in the livedata`() {
         runBlocking {
-
             whenever(runBlocking { repository.getEvents() }).thenReturn(dataExpectedEvents)
             mainViewModel = MainEventsViewModel(repository)
 
-            val events = mainViewModel.eventsLiveData
             mainViewModel.getEventsData()
+            val events = mainViewModel.eventsLiveData
 
             val observer = mock() as Observer<List<Event>>
             events.observeForever(observer)
@@ -89,7 +88,6 @@ class MainViewModelTest {
         runBlocking {
             mainViewModel = MainEventsViewModel(repository)
 
-            mainViewModel.getEventsData()
 
             val coupons = mainViewModel.couponsLiveData
             mainViewModel.getEventsData()
